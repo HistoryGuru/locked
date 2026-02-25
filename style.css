@@ -58,3 +58,20 @@ button {
 
 button:hover { background-color: #2980b9; }
 #resetBtn { background-color: #e74c3c; }
+
+.timer-display {
+    padding: 10px;
+    border-radius: 10px;
+    background: #fdfdfd;
+}
+
+#pipBtn {
+    background-color: #2ecc71;
+}
+
+#pipBtn:hover {
+    background-color: #27ae60;
+}
+
+/* Specific style for when it's in the small window */
+body:empty { background: transparent; } 
