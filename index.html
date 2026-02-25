@@ -2,11 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Custom Study Clock</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Floating Study Clock</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
+    <div class="container" id="mainContainer">
         <h1>Study Timer</h1>
         
         <div class="settings">
@@ -20,7 +21,8 @@
             </div>
         </div>
 
-        <div class="timer-display">
+        <!-- This is the part that will float -->
+        <div id="pipContent" class="timer-display">
             <h2 id="status">Ready?</h2>
             <div id="countdown">25:00</div>
         </div>
@@ -28,6 +30,7 @@
         <div class="controls">
             <button id="startBtn">Start</button>
             <button id="resetBtn">Reset</button>
+            <button id="pipBtn">Floating Mode</button>
         </div>
     </div>
     <script src="script.js"></script>
