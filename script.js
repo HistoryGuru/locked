@@ -1,88 +1,68 @@
-let timeLeft;
-let timerId = null;
-let isStudyTime = true;
-let pipWindow = null;
-
-const display = document.getElementById('countdown');
-const statusText = document.getElementById('status');
-const pipBtn = document.getElementById('pipBtn');
-const pipContent = document.getElementById('pipContent');
-const mainContainer = document.getElementById('mainContainer');
-
-// --- Timer Logic ---
-function updateDisplay(seconds) {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    const timeStr = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-    display.textContent = timeStr;
-    document.title = `(${timeStr}) Study Clock`; // Update browser tab title too
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f7f6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
 }
 
-function startTimer() {
-    if (timerId !== null) return;
-    const studyMins = document.getElementById('studyInput').value;
-    const breakMins = document.getElementById('breakInput').value;
-    if (!timeLeft) timeLeft = studyMins * 60;
-
-    timerId = setInterval(() => {
-        timeLeft--;
-        updateDisplay(timeLeft);
-        if (timeLeft <= 0) {
-            clearInterval(timerId);
-            timerId = null;
-            isStudyTime = !isStudyTime;
-            statusText.textContent = isStudyTime ? "Focus!" : "Break!";
-            timeLeft = (isStudyTime ? studyMins : breakMins) * 60;
-            alert(isStudyTime ? "Break over!" : "Session done!");
-            startTimer();
-        }
-    }, 1000);
+.container {
+    background: white;
+    padding: 2.5rem;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    text-align: center;
+    width: 320px;
 }
 
-// --- Floating Window (PiP) Logic ---
-pipBtn.addEventListener('click', async () => {
-    if (!window.documentPictureInPicture) {
-        return alert("Your browser doesn't support floating windows. Try Chrome or Edge.");
-    }
+.settings {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+}
 
-    // Open the floating window
-    pipWindow = await window.documentPictureInPicture.requestWindow({
-        width: 250,
-        height: 180,
-    });
+.input-group { display: flex; flex-direction: column; gap: 5px; }
 
-    // Copy styles so the floating window looks right
-    [...document.styleSheets].forEach((styleSheet) => {
-        try {
-            const cssRules = [...styleSheet.cssRules].map((rule) => rule.cssText).join('');
-            const style = document.createElement('style');
-            style.textContent = cssRules;
-            pipWindow.document.head.appendChild(style);
-        } catch (e) {
-            const link = document.createElement('link');
-            link.rel = 'stylesheet';
-            link.href = styleSheet.href;
-            pipWindow.document.head.appendChild(link);
-        }
-    });
+input[type="number"] {
+    width: 60px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    text-align: center;
+}
 
-    // Move the timer display into the floating window
-    pipWindow.document.body.append(pipContent);
+.timer-display {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 15px;
+    margin: 20px 0;
+}
 
-    // Return the timer to the main page when the floating window is closed
-    pipWindow.addEventListener("pagehide", () => {
-        const controls = document.querySelector('.controls');
-        mainContainer.insertBefore(pipContent, controls);
-        pipWindow = null;
-    });
-});
+#countdown {
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: #2d3436;
+}
 
-// Reset logic
-document.getElementById('resetBtn').addEventListener('click', () => {
-    clearInterval(timerId);
-    timerId = null;
-    timeLeft = null;
-    updateDisplay(document.getElementById('studyInput').value * 60);
-});
+#status { color: #636e72; text-transform: uppercase; letter-spacing: 1px; }
 
-document.getElementById('startBtn').addEventListener('click', startTimer);
+.controls { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+
+button {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: transform 0.1s;
+}
+
+button:active { transform: scale(0.95); }
+
+.btn-primary { background: #0984e3; color: white; }
+.btn-danger { background: #d63031; color: white; }
+.btn-secondary { background: #00b894; color: white; }
+
+.toggle-group { width: 100%; margin-top: 15px; font-size: 0.9rem; color: #636e72; }
