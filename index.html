@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Floating Study Clock</title>
+    <title>Auto-Float Study Clock</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -13,26 +13,29 @@
         <div class="settings">
             <div class="input-group">
                 <label>Study (mins):</label>
-                <input type="number" id="studyInput" value="25">
+                <input type="number" id="studyInput" value="25" min="1">
             </div>
             <div class="input-group">
                 <label>Break (mins):</label>
-                <input type="number" id="breakInput" value="5">
+                <input type="number" id="breakInput" value="5" min="1">
             </div>
         </div>
 
-        <!-- This is the part that will float -->
+        <!-- The timer display that will move to the floating window -->
         <div id="pipContent" class="timer-display">
             <h2 id="status">Ready?</h2>
             <div id="countdown">25:00</div>
         </div>
 
         <div class="controls">
-            <button id="startBtn">Start</button>
-    <button id="resetBtn">Reset</button>
-    <div style="margin-top: 10px;">
-        <input type="checkbox" id="autoPipToggle" checked>
-        <label for="autoPipToggle">Auto-float on tab switch</label>
+            <button id="startBtn" class="btn-primary">Start Timer</button>
+            <button id="resetBtn" class="btn-danger">Reset</button>
+            <button id="manualPipBtn" class="btn-secondary">Float Now</button>
+            
+            <div class="toggle-group">
+                <input type="checkbox" id="autoPipToggle" checked>
+                <label for="autoPipToggle">Auto-float on tab switch</label>
+            </div>
         </div>
     </div>
     <script src="script.js"></script>
